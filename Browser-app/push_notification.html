@@ -1,0 +1,69 @@
+<!-- Stop Button -->
+<head>
+<meta charset="utf-8"/>
+</head>
+
+<a href="#" onclick="window.clearInterval(int);return false;">Stop</a>
+
+<button onclick="notifyMe()">Notify me!</button>
+
+<script>
+
+function get_url(url){
+    var Httpreq = new XMLHttpRequest(); // a new request
+    Httpreq.open("GET",url,false);
+    Httpreq.send(null);
+    return Httpreq.responseText;          
+}
+
+function cricbuzz(){
+	url = "http://localhost:8000/commentary/"
+	response = get_url(url);
+	json = JSON.parse(response);
+	for (var index in json.comm_lines) 
+	{
+		alert(json.comm_lines[index].timestamp);
+	}
+}
+
+function test(){
+	alert("Called");
+}
+
+function notifyMe() {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification("Hi there!");
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification("Hi there!");
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you 
+  // want to be respectful there is no need to bother them any more.
+}Notification.requestPermission().then(function(result) {
+  console.log(result);
+});function spawnNotification(theBody,theIcon,theTitle) {
+  var options = {
+      body: theBody,
+      icon: theIcon
+  }
+  var n = new Notification(theTitle,options);
+}
+
+var notification = self.setInterval(notifyMe, 1000);
+//var int=self.setInterval(cricbuzz, 60000);
+</script>
