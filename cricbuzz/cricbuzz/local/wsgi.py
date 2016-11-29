@@ -1,0 +1,1 @@
+/home/architbansal/Documents/Vacations/cricbuzz/cricbuzz/wsgi.py
